@@ -4,7 +4,7 @@ require "bundler/capistrano"
 require "rvm/capistrano"
 
 set :rvm_type, :system
-set :rvm_ruby_string, '1.9.3'
+set :rvm_ruby_string, '1.9.3-p327'
 
 set :application, "testapp"
 set :rails_env, :production
@@ -18,7 +18,8 @@ set :branch, "master"
 
 set :domain, "192.168.56.201"
 server domain, :web, :app, :db, :primary => true
-
+default_run_options[:pty] = true
+ssh_options[:forward_agent] = true
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 
