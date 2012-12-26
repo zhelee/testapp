@@ -1,7 +1,8 @@
+set :sites_enabled, "/etc/nginx/sites-enabled"
 namespace :nginx do
   task :relink_nginx_config, :roles => :web do
     template "nginx.erb", "#{shared_path}/config/nginx.conf"
-    run "if [ if /etc/nginx/sites-enalbed/#{application} ]; then #{sudo} rm /etc/nginx/sites-enabled/#{application}; fi"
+    run "if [ -f #{sites_enabled}/#{application} ]; then #{sudo} rm #{sites_enabled}/#{application}; fi"
     run "#{sudo} ln -s #{shared_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
   end
 
