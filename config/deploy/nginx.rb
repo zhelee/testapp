@@ -4,6 +4,14 @@ namespace :nginx do
     run "ln -s #{shared_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
   end
 
+  task :start, :roles => :web, :except => { :no_release => true } do
+    run "#{sudo} service nginx start"
+  end
+
+  task :stop, :roles => :web, :except => { :no_release => true } do
+    run "#{sudo} service nginx stop"
+  end
+
   task :restart, :roles => :web, :except => { :no_release => true } do
     run "#{sudo} service nginx restart"
   end
