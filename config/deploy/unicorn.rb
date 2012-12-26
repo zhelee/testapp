@@ -4,6 +4,7 @@ set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 namespace :deploy do
   task :relink_unicorn_config, :roles => :app do
+    run "if [ if #{shared_path}/config/unicorn.rb ]; then rm #{shared_path}/config/unicorn.rb; fi"
     template "unicorn.erb", "#{shared_path}/config/unicorn.rb"
   end
 
