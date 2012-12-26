@@ -15,7 +15,6 @@ set :scm, :git
 set :repository,  "git://github.com/zhelee/testapp.git"
 set :branch, "master"
 
-
 set :domain, "192.168.56.201"
 server domain, :web, :app, :db, :primary => true
 default_run_options[:pty] = true
