@@ -1,0 +1,40 @@
+upstream unicorn_app {
+    server unix:<%= current_path %>/tmp/sockets/unicorn.sock fail_timeout=0;
+}
+
+server {
+    server_name localhost;
+
+    root <%= current_path %>/public;
+
+    try_files $uri @app;
+
+    location @app {
+        proxy_pass        http://unicorn_app;
+        proxy_set_header  Host $http_host;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_redirect    off;
+    }
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log    off;
+    }
+
+    location = /robots.txt {
+        allow         all;
+        log_not_found off;
+        access_log    off;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires       max;
+        log_not_found off;
+    }
+
+    error_page 500 502 503 504 /500.html;
+
+    location = /500.html {
+        root <%= current_path %>/public;
+    }
+}

@@ -1,15 +1,15 @@
 # 4 workers is enough for our app
 worker_processes 4
- 
+
 # App location
-@app = "/var/www/testapp/current"
- 
+@app = "<%= current_path %>"
+
 # Listen on fs socket for better performance
 listen "#{@app}/tmp/sockets/unicorn.sock", :backlog => 64
- 
+
 # Nuke workers after 30 seconds instead of 60 seconds (the default)
 timeout 30
- 
+
 # App PID
 pid "#{@app}/tmp/pids/unicorn.pid"
  

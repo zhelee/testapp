@@ -1,4 +1,4 @@
-load "config/deploy/helpers"
+load "config/deploy/base"
 
 require "bundler/capistrano"
 require "rvm/capistrano"
@@ -22,11 +22,12 @@ ssh_options[:forward_agent] = true
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 
-# if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
 
 set :prefix, "config/deploy"
+
 load "#{prefix}/unicorn"
+load "#{prefix}/nginx"
 load "#{prefix}/assets"
 load "#{prefix}/database"
 

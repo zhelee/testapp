@@ -1,8 +1,12 @@
-set :unicorn_config, "#{current_path}/config/unicorn.rb"
+set :unicorn_config, "#{shared_path}/config/unicorn.rb"
 set :unicorn_binary, "bash -c 'source /etc/profile.d/rvm.sh && bundle exec unicorn_rails -c #{unicorn_config} -E #{rails_env} -D'"
 set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 namespace :deploy do
+  task :relink_unicorn_config, :roles => :app do
+    template "unicorn.erb", "#{shared_path}/config/unicorn.rb"
+  end
+
   task :start, :roles => :app, :except => { :no_release => true } do
     run "cd #{current_path} && #{unicorn_binary}"
   end
@@ -24,3 +28,6 @@ namespace :deploy do
     start
   end
 end
+
+before "deploy:start", "deploy:relink_nginx_config"
+before "deploy:start", "deploy:relink_unicorn_config"
