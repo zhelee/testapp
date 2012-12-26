@@ -1,0 +1,7 @@
+production:
+  adapter: postgresql
+  pool: 5
+  host: localhost
+  timeout: 5000
+  user: example
+  password: example
