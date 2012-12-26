@@ -29,5 +29,4 @@ namespace :deploy do
   end
 end
 
-before "deploy:start", "deploy:relink_nginx_config"
 before "deploy:start", "deploy:relink_unicorn_config"
