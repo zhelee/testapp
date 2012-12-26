@@ -1,3 +1,6 @@
+	
+server_tokens off;
+
 upstream unicorn_app {
     server unix:<%= current_path %>/tmp/sockets/unicorn.sock fail_timeout=0;
 }
