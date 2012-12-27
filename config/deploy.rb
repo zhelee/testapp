@@ -25,6 +25,7 @@ ssh_options[:forward_agent] = true
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 
+after "bundle_install", "deploy:migrate"
 after "deploy:restart", "deploy:cleanup"
 
 set :prefix, "config/deploy"
