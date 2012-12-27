@@ -2,10 +2,11 @@ set :unicorn_config, "#{shared_path}/config/unicorn.rb"
 set :unicorn_binary, "bash -c 'source /etc/profile.d/rvm.sh && bundle exec unicorn_rails -c #{unicorn_config} -E #{rails_env} -D'"
 set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
-namespace :deploy do
-  task :relink_unicorn_config, :roles => :app do
+namespace :unicorn do
+  task :update_configuration, :roles => :app do
     run "if [ -f #{shared_path}/config/unicorn.rb ]; then rm #{shared_path}/config/unicorn.rb; fi"
     template "unicorn.erb", "#{shared_path}/config/unicorn.rb"
+    unicorn.reload
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
@@ -30,4 +31,10 @@ namespace :deploy do
   end
 end
 
-before "deploy:start", "deploy:relink_unicorn_config"
+namespace :deploy do
+  task :restart do
+    unicorn.reload
+  end
+end
+
+before "deploy:start", "unicorn:update_configuration"
