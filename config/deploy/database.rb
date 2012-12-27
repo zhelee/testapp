@@ -6,3 +6,4 @@ namespace :database do
 end
 
 after "deploy:create_symlink", "database:create_symlink"
+after "deploy:create_symlink", "deploy:migrate"
