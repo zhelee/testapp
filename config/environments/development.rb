@@ -34,4 +34,10 @@ Testapp::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.middleware.use ExceptionNotifier,
+    sender_address: 'exception_notification@testapp.com',
+    exception_recipients: 'mark.geek.lee@gmail.com'
+
+  config.action_mailer.delivery_method = :letter_opener
 end
