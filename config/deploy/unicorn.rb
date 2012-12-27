@@ -30,11 +30,5 @@ namespace :unicorn do
   end
 end
 
-namespace :deploy do
-  task :restart do
-    unicorn.reload
-  end
-end
-
 after "deploy:restart", "unicorn:update_configuration"
 after "unicorn:update_configuration", "unicorn:reload"
