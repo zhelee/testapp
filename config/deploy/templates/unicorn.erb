@@ -36,7 +36,7 @@ before_fork do |server, worker|
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.connection.disconnect!
 
-  old_pid = "#{shared_path}/pids/unicorn.pid.oldbin"
+  old_pid = "<%= shared_path %>/pids/unicorn.pid.oldbin"
   if File.exists?(old_pid)
     begin
       Process.kill("QUIT", File.read(old_pid).to_i)
