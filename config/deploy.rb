@@ -1,7 +1,10 @@
+set :rails_env, "production"
+
 load "config/deploy/base"
 
 require "bundler/capistrano"
 require "rvm/capistrano"
+require "delayed/recipes"
 
 set :rvm_type, :system
 set :rvm_ruby_string, '1.9.3-p327'
@@ -30,4 +33,4 @@ load "#{prefix}/unicorn"
 load "#{prefix}/nginx"
 load "#{prefix}/assets"
 load "#{prefix}/database"
-
+load "#{prefix}/delayed_job"
