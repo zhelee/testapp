@@ -6,7 +6,6 @@ namespace :unicorn do
   task :update_configuration, :roles => :app do
     run "if [ -f #{shared_path}/config/unicorn.rb ]; then rm #{shared_path}/config/unicorn.rb; fi"
     template "unicorn.erb", "#{shared_path}/config/unicorn.rb"
-    unicorn.reload
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
@@ -37,4 +36,5 @@ namespace :deploy do
   end
 end
 
-before "deploy:start", "unicorn:update_configuration"
+after "deploy:restart", "unicorn:update_configuration"
+after "unicorn:update_configuration", "unicorn:reload"
